@@ -6,8 +6,9 @@ public class BlockSpawner : MonoBehaviour {
 
 	public GameObject FallingBlockPrefab;
 	public float spawnCooldown;
+	public float maxBlockAngle;
+	public Vector2 blockSizeMinMax;
 	float blockHalfWidth;
-	float blockHalfHeight;
 
 	Vector2 screenHalfSizeWorldUnits;
 	float nextSpawnTime;
@@ -20,9 +21,6 @@ public class BlockSpawner : MonoBehaviour {
 		//calculate half the blocks width -> no overlap on the sides
 		blockHalfWidth = transform.localScale.x / 2;
 
-		//calculate half the blocks height -> no overlap when spawning block on the top
-		blockHalfHeight = transform.localScale.y / 2;
-
 	}
 	
 	// Update is called once per frame
@@ -30,8 +28,18 @@ public class BlockSpawner : MonoBehaviour {
 		//spawn blocks after cooldown is over
 		if (Time.time > nextSpawnTime)
 		{
-			Vector2 spawnPosition = new Vector2(Random.Range(-screenHalfSizeWorldUnits.x + blockHalfWidth, screenHalfSizeWorldUnits.x - blockHalfWidth), screenHalfSizeWorldUnits.y + blockHalfHeight);
-			Instantiate(FallingBlockPrefab, spawnPosition, Quaternion.identity);
+			//calculate random block size and angle
+			float blockSize = Random.Range(blockSizeMinMax.x, blockSizeMinMax.y);
+			float blockAngle = Random.Range(-maxBlockAngle, maxBlockAngle);
+
+			//set spawnposition so that blocks won't overlap with sides or top
+			Vector2 spawnPosition = new Vector2(Random.Range(-screenHalfSizeWorldUnits.x + blockHalfWidth, screenHalfSizeWorldUnits.x - blockHalfWidth), screenHalfSizeWorldUnits.y + blockSize);
+			//instantiate
+			GameObject block = Instantiate(FallingBlockPrefab, spawnPosition, Quaternion.Euler(Vector3.forward * blockAngle)) ;
+			//change instantiated block's size
+			block.transform.localScale = Vector3.one * blockSize;
+
+
 			nextSpawnTime += spawnCooldown;
 		}
 
@@ -39,4 +47,7 @@ public class BlockSpawner : MonoBehaviour {
 
 		
 	}
+	
+
+	
 }
