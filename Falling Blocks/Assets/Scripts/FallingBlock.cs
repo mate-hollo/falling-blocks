@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class FallingBlock : MonoBehaviour {
 
-	public float speed;
+	public Vector2 speedMinMax;
+	float speed;
+
+	void Start()
+	{
+		speed = Mathf.Lerp(speedMinMax.x, speedMinMax.y, Difficulty.GetDifficultyPercent());	
+	}
 
 	void Update () {
-
 		//Move the block down
 		transform.Translate(Vector2.down * speed * Time.deltaTime);
+		Debug.Log(speed);
 		
 	}
 }

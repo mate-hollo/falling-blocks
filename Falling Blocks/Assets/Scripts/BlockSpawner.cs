@@ -5,7 +5,7 @@ using UnityEngine;
 public class BlockSpawner : MonoBehaviour {
 
 	public GameObject FallingBlockPrefab;
-	public float spawnCooldown;
+	public Vector2 spawnCooldownMinMax;
 	public float maxBlockAngle;
 	public Vector2 blockSizeMinMax;
 	float blockHalfWidth;
@@ -28,6 +28,11 @@ public class BlockSpawner : MonoBehaviour {
 		//spawn blocks after cooldown is over
 		if (Time.time > nextSpawnTime)
 		{
+			float spawnCooldown = Mathf.Lerp(spawnCooldownMinMax.y, spawnCooldownMinMax.x, Difficulty.GetDifficultyPercent());
+			nextSpawnTime = Time.time + spawnCooldown;
+
+			//Debug.Log(spawnCooldown);
+
 			//calculate random block size and angle
 			float blockSize = Random.Range(blockSizeMinMax.x, blockSizeMinMax.y);
 			float blockAngle = Random.Range(-maxBlockAngle, maxBlockAngle);
@@ -40,7 +45,7 @@ public class BlockSpawner : MonoBehaviour {
 			block.transform.localScale = Vector3.one * blockSize;
 
 
-			nextSpawnTime += spawnCooldown;
+			
 		}
 
 		

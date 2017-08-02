@@ -29,20 +29,16 @@ public class PlayerMovement : MonoBehaviour {
 		if (transform.position.x > screenHalfWidthInWorldUnits)
 			transform.position = new Vector2(-screenHalfWidthInWorldUnits, transform.position.y);
 
-
-
-
 		//transform.position = camera.ViewportToWorldPoint(new Vector3(1f, -3.8f, 0));
 
+		
 
+	}
 
-
-
-
-
-
-
-
-
+	//if it hits a falling block destory the player
+	private void OnTriggerEnter2D(Collider2D collision)
+	{		
+		if (collision.tag == "Falling Block")
+			Destroy(gameObject);
 	}
 }
