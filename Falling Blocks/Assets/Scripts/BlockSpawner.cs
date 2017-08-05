@@ -31,8 +31,6 @@ public class BlockSpawner : MonoBehaviour {
 			float spawnCooldown = Mathf.Lerp(spawnCooldownMinMax.y, spawnCooldownMinMax.x, Difficulty.GetDifficultyPercent());
 			nextSpawnTime = Time.time + spawnCooldown;
 
-			//Debug.Log(spawnCooldown);
-
 			//calculate random block size and angle
 			float blockSize = Random.Range(blockSizeMinMax.x, blockSizeMinMax.y);
 			float blockAngle = Random.Range(-maxBlockAngle, maxBlockAngle);
